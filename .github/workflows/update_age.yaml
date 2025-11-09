@@ -1,0 +1,33 @@
+name: Update Age
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # runs every day at midnight UTC
+  workflow_dispatch: # allows manual run
+
+jobs:
+  update-age:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Calculate and update age
+        run: |
+          BIRTHDATE="2000-04-25"  # <-- change this
+          TODAY=$(date +%Y-%m-%d)
+          AGE=$(( ($(date -d $TODAY +%s) - $(date -d $BIRTHDATE +%s)) / 31556926 ))
+
+          # Replace {{AGE}} placeholder in README.md
+          sed -i "s/{{AGE}}/${AGE}/g" README.md
+
+      - name: Commit changes if updated
+        run: |
+          if git diff --quiet; then
+            echo "No change in age."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -am "chore: update age to ${AGE}"
+            git push
+          fi
