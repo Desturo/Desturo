@@ -14,11 +14,10 @@ jobs:
 
       - name: Calculate and update age
         run: |
-          BIRTHDATE="2000-04-25"  # <-- change this
+          BIRTHDATE="2001-02-03"
           TODAY=$(date +%Y-%m-%d)
           AGE=$(( ($(date -d $TODAY +%s) - $(date -d $BIRTHDATE +%s)) / 31556926 ))
 
-          # Replace {{AGE}} placeholder in README.md
           sed -i "s/{{AGE}}/${AGE}/g" README.md
 
       - name: Commit changes if updated
