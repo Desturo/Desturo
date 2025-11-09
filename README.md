@@ -1,1 +1,1 @@
-Hi, I'm Nico. A {{AGE}} year old student at 42Heilbronn.
+Hi, I'm Nico. A 25 year old student at 42Heilbronn.
